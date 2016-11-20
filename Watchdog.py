@@ -48,7 +48,6 @@ class Watchdog(object):
         interrupt is generated on the main thread. The watchdog timer is stopped 
         when a previous event is tripped.
         '''
-        print 'Watchdog event...'
         self.stop()
         #thread.interrupt_main()
         self.triggered = True

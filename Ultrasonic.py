@@ -18,13 +18,13 @@ class Ultrasonic:
     _DEBUG = False
     _DEBUG_INFO = 'DEBUG "Ultrasonic.py":'
     
-    def __init__(self, triggerChannel, echoChannel, servoChannel=-1):
+    def __init__(self, triggerChannel, echoChannel):
         # Define GPIO to use on Pi
         self.GPIO_TRIGGER = triggerChannel
         self.GPIO_ECHO = echoChannel
-        self.GPIO_SERVO = servoChannel
+        #self.GPIO_SERVO = servoChannel
         
-        self.watchdog = Watchdog.Watchdog(0.15)
+        self.watchdog = Watchdog.Watchdog(0.01)
 
         # Set pins as output and input
         self.trigger = mraa.Gpio(self.GPIO_TRIGGER)  # Trigger
@@ -36,11 +36,12 @@ class Ultrasonic:
             print self._DEBUG_INFO, '__init__(), setup trigger = {0}, echo = {1}, servo = {2}'.format(self.GPIO_TRIGGER,self.GPIO_ECHO,self.GPIO_SERVO)
     
     def get_distance(self):    
-        self.watchdog.start()
+        #self.watchdog.start()
 
         try:
             self.trigger.write(0)    # Set trigger to False (Low)
-            time.sleep(0.035)    # Allow module to settle
+            time.sleep(0.005)    # Allow module to settle
+            self.watchdog.start()
 
             self.trigger.write(1)    # Send 10us pulse to trigger
             time.sleep(0.00001)
@@ -52,16 +53,18 @@ class Ultrasonic:
 
             while ((self.echo.read()==1)and(self.watchdog.triggered == False)):
                 stop = time.time()
+            
+            self.watchdog.stop()
         
         except Watchdog:
             print ('watchdog timed out')
             
         if self.watchdog.triggered == True:
             self.watchdog.triggered = False
-            self.watchdog.start()
+            #self.watchdog.start()
             distance = -1.
         else:
-            self.watchdog.stop()      
+            #self.watchdog.stop()      
             elapsed = stop-start    # Calculate pulse length
             # Distance pulse travelled in that time is time
             # multiplied by the speed of sound (cm/s)

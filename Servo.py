@@ -41,7 +41,7 @@ class Servo(object):
     _DEBUG = False
     _DEBUG_INFO = 'DEBUG "Servo.py":'
 
-    def __init__(self, channel, basePosition=0, lock=True, minLimit=0, maxLimit=180):
+    def __init__(self, channel, basePosition=0, minLimit=0, maxLimit=180, lock=True):
         ''' Init a servo on specific channel, this basePosition '''
         if channel<0 or channel > 16:
             raise ValueError("Servo channel \"{0}\" is not in (0, 15).".format(channel))
@@ -141,7 +141,7 @@ class Servo(object):
                 
     def reset(self):
         """ reset the servo to its base position"""
-        self.turn(0) #self.basePosition)
+        self.turn(self.basePosition)
         if self._DEBUG:
             print self._DEBUG_INFO, 'reset(), Turn to centre at angle = %d' % self.basePosition
         
