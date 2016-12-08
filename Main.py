@@ -12,6 +12,7 @@ import Drive_Wheels
 import Encoder
 import time
 import Ultrasonic
+import Sonar
 #import curses
 
 """def keyinput ():
@@ -72,14 +73,20 @@ def test():
             time.sleep(5)"""
         
         #""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-        GPIO_TRIGGER = 6
-        GPIO_ECHO    = 5
+        TRIGGER = 6
+        ECHO    = 5
+        CHANNEL = 1
     
-        ultra = Ultrasonic.Ultrasonic(GPIO_TRIGGER, GPIO_ECHO)
+        #ultra = Ultrasonic.Ultrasonic(GPIO_TRIGGER, GPIO_ECHO)
+        sonar = Sonar.Sonar(TRIGGER, ECHO, CHANNEL)
+        
         while True:
+            sonar.run()
+        
+        """while True:
             distance = ultra.get_distance()
             
-            print ('Distance = %.1f' % distance)
+            print ('Distance = %.1f' % distance)"""
             
 
         #""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

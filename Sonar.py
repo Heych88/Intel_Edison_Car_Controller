@@ -48,16 +48,7 @@ class Sonar:
             self.servo.turn(angle)            
             time.sleep(0.035) 
             distance = self.ultra.get_distance()
-            print (distance)
-            
-            
-        #for angle in range(self.servoStop, self.servoStart-1, -1):
-            #self.servo.turn(angle)            
-            #time.sleep(0.01)
-            #distance = self.ultra.get_distance()
-            #print (distance) 
-        #self.servo.reset()
-            
+            print (distance)            
     
     def set_debug(self, debug):
         ''' Set if debug information shows '''
